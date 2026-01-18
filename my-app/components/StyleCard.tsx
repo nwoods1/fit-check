@@ -19,7 +19,7 @@ export function StyleCard({ style, index }: StyleCardProps) {
       transition={{ delay: index * 0.05, duration: 0.3 }}
       whileHover={{ scale: 1.03, y: -4 }}
       whileTap={{ scale: 0.98 }}
-      onClick={() => router.push(`/body-type?style=${style.id}`)}
+      onClick={() => router.push(`/capture-fit/${style.id}`)}
       className="style-card group"
     >
       <div className={`absolute inset-0 bg-gradient-to-br ${style.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />

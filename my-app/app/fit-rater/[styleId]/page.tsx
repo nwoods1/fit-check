@@ -49,7 +49,7 @@ function FitRaterContent() {
       </motion.header>
 
       {/* Step Indicator */}
-      <StepIndicator currentStep={4} />
+      <StepIndicator currentStep={3} />
 
       {/* Empty Content Area */}
       <div className="flex-1 flex flex-col items-center justify-center px-6">

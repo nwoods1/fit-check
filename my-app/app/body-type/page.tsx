@@ -300,13 +300,14 @@ function BodyTypeContent() {
               </div>
               <div className="text-center space-y-2">
                 <h2 className="text-2xl font-display font-bold">Before we scan</h2>
-                <p className="text-muted-foreground">Please wear form-fitting clothing.</p>
+                <p className="text-muted-foreground">Wear your selected style and take a photo. and take a photo.</p>
+              
               </div>
               <div className="bg-card border border-border rounded-2xl p-6">
                 <label className="flex items-start gap-4 cursor-pointer">
                   <Checkbox checked={confirmed} onCheckedChange={(c) => setConfirmed(c === true)} className="mt-1" />
                   <div>
-                    <p className="font-medium">I'm wearing fitted clothing</p>
+                    <p className="font-medium">I'm wearing my selected style</p>
                   </div>
                 </label>
               </div>
@@ -398,7 +399,14 @@ function BodyTypeContent() {
               />
               <canvas ref={canvasRef} className="hidden" />
 
-              <div className="absolute bottom-10 flex items-center gap-8">
+              {/* Body Type Overlay Guide */}
+              <img 
+                src="/s3.png" 
+                alt="Body positioning guide" 
+                className="absolute inset-0 w-full h-full object-cover md:object-contain pointer-events-none opacity-70"
+              />
+
+              <div className="absolute bottom-10 flex items-center gap-8 z-10">
                 <Button variant="secondary" size="icon" className="rounded-full w-12 h-12" onClick={stopCamera}>
                   <X className="w-6 h-6" />
                 </Button>

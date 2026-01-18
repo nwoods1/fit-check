@@ -9,11 +9,10 @@ interface StepIndicatorProps {
 
 const steps = [
   { number: 1, label: "Choose Style" },
-  { number: 2, label: "Upload Body Type" },
-  { number: 3, label: "Capture Fit" },
-  { number: 4, label: "Fit Rater" },
-  { number: 5, label: "Fit Suggestions" },
-  { number: 6, label: "Fitting Room" },
+  { number: 2, label: "Capture Fit" },
+  { number: 3, label: "Fit Rater" },
+  { number: 4, label: "Fit Suggestions" },
+  // { number: 5, label: "Fitting Room" },
 ];
 
 export function StepIndicator({ currentStep }: StepIndicatorProps) {

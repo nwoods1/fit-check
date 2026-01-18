@@ -126,7 +126,7 @@ function SuggestionsContent() {
       </motion.header>
 
       {/* Step Indicator */}
-      <StepIndicator currentStep={5} />
+      <StepIndicator currentStep={4} />
 
       {/* Carousel */}
       <div className="flex-1 px-4 pb-4">
@@ -187,14 +187,14 @@ function SuggestionsContent() {
           <ArrowLeft className="w-5 h-5 mr-2" />
           Back
         </Button>
-        <Button
+        {/* <Button
           size="lg"
           className="rounded-full"
           onClick={() => router.push(`/fitting-room/${styleId}`)}
         >
           Fitting Room
           <ArrowRight className="w-5 h-5 ml-2" />
-        </Button>
+        </Button> */}
       </div>
     </div>
   );

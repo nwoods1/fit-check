@@ -26,7 +26,7 @@ export function AddVibeCard({ index }: AddVibeCardProps) {
   const handleSubmit = () => {
     if (vibeName.trim()) {
       // Navigate with custom vibe name
-      router.push(`/camera/custom-${vibeName.toLowerCase().replace(/\s+/g, "-")}`);
+      router.push(`/capture-fit/custom-${vibeName.toLowerCase().replace(/\s+/g, "-")}`);
       setIsOpen(false);
     }
   };
