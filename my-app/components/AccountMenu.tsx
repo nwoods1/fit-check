@@ -91,7 +91,7 @@ export default function AccountMenu() {
           <button
             onClick={() => {
               setOpen(false);
-              router.push("/account");
+              router.push("/auth/update-password");
             }}
             className="
               w-full px-4 py-3
