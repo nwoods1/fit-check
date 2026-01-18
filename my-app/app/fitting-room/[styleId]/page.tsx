@@ -64,7 +64,7 @@ function FittingRoomContent() {
       </motion.header>
 
       {/* Step Indicator */}
-      <StepIndicator currentStep={5} />
+      <StepIndicator currentStep={6} />
 
       {/* Content */}
       <div className="flex-1 px-6 py-4 overflow-auto">
