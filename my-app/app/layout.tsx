@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import AccountMenu from "@/components/AccountMenu";
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -9,8 +10,8 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  title: "Fit Check",
+  description: "AI-powered outfit suggestions",
 };
 
 const geistSans = Geist({
@@ -33,7 +34,17 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          {/* Top navigation bar */}
+          <header className="flex items-center justify-between px-6 py-4 border-b border-white/10">
+            <div className="text-lg font-semibold text-white">
+              Fit Check
+            </div>
+
+            {/* Shows only when logged in */}
+            <AccountMenu />
+          </header>
+
+          <main>{children}</main>
         </ThemeProvider>
       </body>
     </html>
