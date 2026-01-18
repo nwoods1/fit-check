@@ -4,13 +4,16 @@ import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 
 interface StepIndicatorProps {
-  currentStep: 1 | 2 | 3;
+  currentStep: 1 | 2 | 3 | 4 | 5 | 6;
 }
 
 const steps = [
-  { number: 1, label: "Choose Vibe" },
-  { number: 2, label: "Capture Fit" },
-  { number: 3, label: "Suggested Fits" },
+  { number: 1, label: "Choose Style" },
+  { number: 2, label: "Upload Body Type" },
+  { number: 3, label: "Capture Fit" },
+  { number: 4, label: "Fit Rater" },
+  { number: 5, label: "Fit Suggestions" },
+  { number: 6, label: "Fitting Room" },
 ];
 
 export function StepIndicator({ currentStep }: StepIndicatorProps) {

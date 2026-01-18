@@ -58,28 +58,28 @@ export default function AccountMenu() {
     <div ref={menuRef} className="relative">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm text-white hover:bg-white/10"
+        className="flex items-center gap-2 rounded-full border border-border bg-card px-3 py-2 text-sm text-foreground hover:bg-muted"
       >
         <span className="h-2 w-2 rounded-full bg-green-400" />
         <span className="max-w-[180px] truncate">{label}</span>
-        <span className="text-white/70">▾</span>
+        <span className="text-muted-foreground">▾</span>
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-48 overflow-hidden rounded-xl border border-white/10 bg-zinc-900 shadow-lg">
+        <div className="absolute right-0 mt-2 w-48 overflow-hidden rounded-xl border border-border bg-card shadow-lg">
           <button
             onClick={() => {
               setOpen(false);
               router.push("/account"); // optional route you can create later
             }}
-            className="w-full px-4 py-3 text-left text-sm text-white hover:bg-white/10"
+            className="w-full px-4 py-3 text-left text-sm text-foreground hover:bg-muted"
           >
             Account
           </button>
 
           <button
             onClick={handleSignOut}
-            className="w-full px-4 py-3 text-left text-sm text-red-300 hover:bg-white/10"
+            className="w-full px-4 py-3 text-left text-sm text-red-500 hover:bg-muted"
           >
             Sign out
           </button>

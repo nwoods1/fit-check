@@ -84,8 +84,8 @@ export function CameraView() {
   };
 
   const confirmPhoto = () => {
-    // Navigate to suggested fits page
-    router.push(`/suggestions/${styleId}`);
+    // Navigate to fit rater page
+    router.push(`/fit-rater/${styleId}`);
   };
 
   return (
@@ -100,7 +100,7 @@ export function CameraView() {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => router.push("/")}
+            onClick={() => router.push(`/capture-fit/${styleId}`)}
             className="rounded-full"
           >
             <X className="w-5 h-5" />
@@ -121,7 +121,7 @@ export function CameraView() {
             <RotateCcw className="w-5 h-5" />
           </Button>
         </div>
-        <StepIndicator currentStep={2} />
+        <StepIndicator currentStep={3} />
       </motion.div>
 
       {/* Camera / Photo View */}

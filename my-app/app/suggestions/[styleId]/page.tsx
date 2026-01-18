@@ -1,13 +1,12 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, Suspense } from "react";
 import { motion } from "framer-motion";
 import { useRouter, useParams } from "next/navigation";
-import { ArrowLeft, Shirt } from "lucide-react";
+import { ArrowLeft, ArrowRight, Shirt, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { StepIndicator } from "@/components/StepIndicator";
 import { FitCard } from "@/components/FitCard";
-import { FitFilterChat } from "@/components/FitFilterChat";
 import { sampleFits } from "@/data/fits";
 import { styleCategories } from "@/data/styles";
 import {
@@ -18,7 +17,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-export default function SuggestedFitsPage() {
+function SuggestionsContent() {
   const router = useRouter();
   const params = useParams();
   const styleId = params?.styleId as string;
@@ -105,7 +104,7 @@ export default function SuggestedFitsPage() {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => router.push(`/camera/${styleId}`)}
+            onClick={() => router.push(`/fit-rater/${styleId}`)}
             className="rounded-full"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -127,7 +126,7 @@ export default function SuggestedFitsPage() {
       </motion.header>
 
       {/* Step Indicator */}
-      <StepIndicator currentStep={3} />
+      <StepIndicator currentStep={5} />
 
       {/* Carousel */}
       <div className="flex-1 px-4 pb-4">
@@ -177,10 +176,40 @@ export default function SuggestedFitsPage() {
         )}
       </div>
 
-      {/* Filter Chat */}
-      <div className="px-4 pb-6">
-        <FitFilterChat onFilter={handleFilter} />
+      {/* Navigation Buttons */}
+      <div className="px-6 pb-6 flex items-center justify-between">
+        <Button
+          variant="outline"
+          size="lg"
+          className="rounded-full"
+          onClick={() => router.push(`/fit-rater/${styleId}`)}
+        >
+          <ArrowLeft className="w-5 h-5 mr-2" />
+          Back
+        </Button>
+        <Button
+          size="lg"
+          className="rounded-full"
+          onClick={() => router.push(`/fitting-room/${styleId}`)}
+        >
+          Fitting Room
+          <ArrowRight className="w-5 h-5 ml-2" />
+        </Button>
       </div>
     </div>
+  );
+}
+
+export default function SuggestedFitsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-background flex items-center justify-center">
+          <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+        </div>
+      }
+    >
+      <SuggestionsContent />
+    </Suspense>
   );
 }
