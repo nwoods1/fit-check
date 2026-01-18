@@ -180,7 +180,7 @@ export default function SuggestedFitsPage() {
       
       {/* Select Fit Button */}
       <div style={{display:'flex', justifyContent:'center', alignItems:'center', marginBottom:'15px'}}>
-        <Button size="sm" /* onClick={handleSend} disabled={!input.trim()} */>
+        <Button size="sm" onClick={() => router.push(`/body-picture/`)} >
           Select this fit!
           {/* <Send className="w-4 h-4" /> */}
         </Button>
