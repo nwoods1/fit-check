@@ -5,9 +5,9 @@ const supabaseKey = 'sb_publishable_boDRaKAxj_hDrW9xgHwxVA_j45QHbrB';
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const { data, error } = await supabase.auth.signUp({
+const { data, error } = await supabase.auth.signInWithPassword({
     email: 'abc@gmail.com',
-    password: 'example-password',
+    password: 'Password!23',
 })
 
 console.log(data)
