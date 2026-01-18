@@ -5,9 +5,9 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
 export function createClient() {
   if (!supabaseUrl || !supabaseKey) {
-    console.warn("Supabase credentials not configured. Auth features will not work.");
-    // Return a mock client that won't crash but won't work either
-    return null as unknown as ReturnType<typeof createBrowserClient>;
+    throw new Error(
+      "Missing Supabase env vars. Check NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY in .env.local"
+    );
   }
   return createBrowserClient(supabaseUrl, supabaseKey);
 }

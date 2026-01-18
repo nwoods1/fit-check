@@ -6,9 +6,13 @@ import { StyleCard } from "@/components/StyleCard";
 import { AddVibeCard } from "@/components/AddVibeCard";
 import { StepIndicator } from "@/components/StepIndicator";
 import { Shirt, Sparkles } from "lucide-react";
+import RequireAuth from "@/components/RequireAuth";
+
+
 
 export default function Home() {
   return (
+    <RequireAuth>
     <div className="min-h-screen bg-background">
       {/* Header */}
       <motion.header
@@ -50,5 +54,7 @@ export default function Home() {
         </div>
       </section>
     </div>
+    <div>Home</div>
+    </RequireAuth>
   );
 }
