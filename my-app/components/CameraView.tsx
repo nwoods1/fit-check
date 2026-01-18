@@ -8,15 +8,6 @@ import { useRouter, useParams } from "next/navigation";
 import { styleCategories } from "@/data/styles";
 import { StepIndicator } from "@/components/StepIndicator";
 
-const CLOTHING_ZONES = [
-  { id: "hat", label: "Hat", top: "2%", left: "35%", width: "30%", height: "10%" },
-  { id: "glasses", label: "Glasses", top: "13%", left: "30%", width: "40%", height: "8%" },
-  { id: "tshirt", label: "Top", top: "25%", left: "20%", width: "60%", height: "25%" },
-  { id: "pants", label: "Pants", top: "52%", left: "25%", width: "50%", height: "30%" },
-  { id: "socks", label: "Socks", top: "83%", left: "25%", width: "50%", height: "7%" },
-  { id: "shoes", label: "Shoes", top: "91%", left: "20%", width: "60%", height: "8%" },
-];
-
 export function CameraView() {
   const router = useRouter();
   const params = useParams();
@@ -39,7 +30,11 @@ export function CameraView() {
       }
 
       const newStream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode, width: { ideal: 1280 }, height: { ideal: 1920 } },
+        video: {
+          facingMode,
+          width: { ideal: 720 },
+          height: { ideal: 1280 },
+        },
         audio: false
       });
 
@@ -152,29 +147,20 @@ export function CameraView() {
             playsInline
             muted
             onLoadedMetadata={() => setIsLoading(false)}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain bg-black"
           />
         )}
 
-        {/* Clothing Zone Overlay */}
-        <div className="camera-overlay">
-          {CLOTHING_ZONES.map((zone) => (
-            <motion.div
-              key={zone.id}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: photo ? 1 : 0.4 }}
-              className="clothing-zone"
-              style={{
-                top: zone.top,
-                left: zone.left,
-                width: zone.width,
-                height: zone.height,
-              }}
-            >
-              <span className="text-xs font-medium opacity-80">{zone.label}</span>
-            </motion.div>
-          ))}
-        </div>
+        {/* Silhouette Overlay */}
+        {!photo && (
+          <div className="absolute inset-40 bottom-80 translate-y-40 flex items-center justify-center pointer-events-none">
+            <img
+              src="/s3.png"
+              alt="Align your body"
+              className="scale-1 h-[250%] w-auto object-contain"
+            />
+          </div>
+        )}
 
         <canvas ref={canvasRef} className="hidden" />
       </div>
