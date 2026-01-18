@@ -109,6 +109,7 @@ export function CameraView({ styleId }: { styleId: string }) {
     setCountdown(null);
     if (countdownRef.current) window.clearInterval(countdownRef.current);
     countdownRef.current = null;
+    startCamera();
   };
 
   const toggleCamera = () => {
@@ -185,11 +186,11 @@ export function CameraView({ styleId }: { styleId: string }) {
 
         {photo ? (
           <motion.img
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 0.95 }}
             src={photo}
             alt="Captured outfit"
-            className="w-full h-full object-cover border-y-2 border-zinc-900"
+            className="w-full h-full object-contain"
           />
         ) : (
           <video
@@ -229,9 +230,9 @@ export function CameraView({ styleId }: { styleId: string }) {
               <div className="rounded-full bg-[#f4eadf] px-9 py-5 border-2 border-zinc-900 shadow-[6px_6px_0_#00000018]">
                 <motion.div
                   key={countdown}
-                  initial={{ scale: 0.82, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  className="[font-family:'Bodoni Moda','Didot','Bodoni MT',ui-serif,serif] text-6xl font-semibold text-zinc-900 text-center tabular-nums"
+                  initial={{ scale: 0.75, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 0.95 }}
+                  className="text-6xl font-bold text-white text-center"
                 >
                   {countdown === 0 ? "" : countdown}
                 </motion.div>
