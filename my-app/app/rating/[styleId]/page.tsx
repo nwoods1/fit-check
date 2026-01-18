@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { styleCategories } from "@/data/styles";
 import { styleRubrics } from "@/data/styleRubrics";
@@ -188,33 +189,44 @@ Now analyze the image and output JSON only.
         {/* Step Indicator */}
         <section className="relative px-6 pb-8">
             <div className="mx-auto w-full max-w-6xl rounded-[26px] border-2 border-zinc-900 bg-[#f4eadf] p-4 shadow-[5px_5px_0_#00000012]">
-            <StepIndicator currentStep={2} />
+            <StepIndicator currentStep={3} />
             </div>
         </section>
         {/* Top bar */}
         <div className="flex items-start justify-between gap-4">
-          <div>
-            <div className="text-[10px] tracking-[0.28em] uppercase text-zinc-700">
-              Outfit rating
-            </div>
-            <h1 className="mt-1 text-3xl sm:text-4xl leading-[0.95] tracking-[-0.02em] [font-family:'Bodoni Moda','Didot','Bodoni MT',ui-serif,serif] font-semibold">
-              Result
-            </h1>
-            <div className="mt-2 text-sm text-zinc-700">
-              Target vibe:{" "}
-              <span className="text-zinc-900 font-medium">
-                {style?.name ?? styleId}
-              </span>
+          <div className="flex items-start gap-3">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => router.push(`/camera/${styleId}`)}
+              className="h-10 w-10 rounded-full border-2 border-zinc-900 bg-[#f7f1ea] hover:bg-[#eee2d5] text-zinc-900 shadow-[2px_2px_0_#00000012]"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
+
+            <div>
+              <div className="text-[10px] tracking-[0.28em] uppercase text-zinc-700">
+                The Analysis
+              </div>
+              <h1 className="mt-1 text-3xl sm:text-4xl leading-[0.95] tracking-[-0.02em] [font-family:'Bodoni Moda','Didot','Bodoni MT',ui-serif,serif] font-semibold">
+                Result
+              </h1>
+              <div className="mt-2 text-sm text-zinc-700">
+                Target vibe:{" "}
+                <span className="text-zinc-900 font-medium">
+                  {style?.name ?? styleId}
+                </span>
+              </div>
             </div>
           </div>
 
-          <Button
+          {/* <Button
             variant="outline"
             onClick={() => router.push(`/camera/${styleId}`)}
             className="h-11 rounded-full px-6 border-2 border-zinc-900 bg-[#f7f1ea] text-zinc-900 hover:bg-[#eee2d5] shadow-[2px_2px_0_#00000012]"
           >
-            Back
-          </Button>
+            Retake
+          </Button> */}
         </div>
         
         <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -231,9 +243,9 @@ Now analyze the image and output JSON only.
                 <div className="w-full aspect-[3/4] bg-[#eee2d5]" />
               )}
               <div className="px-5 py-4 border-t-2 border-zinc-900/15">
-                <div className="text-[10px] tracking-[0.28em] uppercase text-zinc-700">
+                {/* <div className="text-[10px] tracking-[0.28em] uppercase text-zinc-700">
                   Photo
-                </div>
+                </div> */}
                 <div className="mt-1 text-sm text-zinc-800">
                 
                 </div>

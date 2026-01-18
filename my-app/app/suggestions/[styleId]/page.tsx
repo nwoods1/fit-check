@@ -238,7 +238,7 @@ export default function SuggestedFitsPage() {
       <div className="relative mx-auto w-full max-w-6xl px-6 pt-4">
         <div className="rounded-[18px] border-2 border-zinc-900 bg-[#f4eadf] shadow-[3px_3px_0_#00000012] px-3 py-2">
           <div className="scale-[0.94] origin-top">
-            <StepIndicator currentStep={3} />
+            <StepIndicator currentStep={4} />
           </div>
         </div>
       </div>
@@ -261,13 +261,13 @@ export default function SuggestedFitsPage() {
             </Button>
 
             <div className="flex items-start gap-3">
-              <div className="h-10 w-10 rounded-full border-2 border-zinc-900 bg-[#e7dccf] shadow-[2px_2px_0_#00000012] flex items-center justify-center">
+              {/* <div className="h-10 w-10 rounded-full border-2 border-zinc-900 bg-[#e7dccf] shadow-[2px_2px_0_#00000012] flex items-center justify-center">
                 <Shirt className="w-5 h-5" />
-              </div>
+              </div> */}
 
               <div>
                 <div className="text-[10px] tracking-[0.28em] uppercase text-zinc-700">
-                  Suggested fits
+                  Level Up
                 </div>
                 <h1 className="mt-1 text-3xl sm:text-4xl leading-[0.95] tracking-[-0.02em] [font-family:'Bodoni Moda','Didot','Bodoni MT',ui-serif,serif] font-semibold">
                   Closet picks
@@ -282,13 +282,13 @@ export default function SuggestedFitsPage() {
             </div>
           </div>
 
-          <Button
+          {/* <Button
             variant="outline"
             onClick={() => router.push(`/camera/${styleId}`)}
             className="h-11 rounded-full px-6 border-2 border-zinc-900 bg-[#f7f1ea] text-zinc-900 hover:bg-[#eee2d5] shadow-[2px_2px_0_#00000012]"
           >
             Retake
-          </Button>
+          </Button> */}
         </div>
       </motion.header>
 
@@ -340,7 +340,7 @@ export default function SuggestedFitsPage() {
         ) : (
           <>
             {/* Which parts */}
-            <div className="mt-6 rounded-[18px] border-2 border-zinc-900 bg-[#f7f1ea] shadow-[3px_3px_0_#00000010] px-5 py-4">
+            {/* <div className="mt-6 rounded-[18px] border-2 border-zinc-900 bg-[#f7f1ea] shadow-[3px_3px_0_#00000010] px-5 py-4">
               <div className="text-[10px] tracking-[0.28em] uppercase text-zinc-700">
                 Focus
               </div>
@@ -351,57 +351,17 @@ export default function SuggestedFitsPage() {
                   ? "Tops"
                   : "Bottoms"}
               </div>
-            </div>
-
-            {/* Top picks */}
-            <div className="mt-6">
-              <div className="flex items-end justify-between gap-4 mb-3">
-                <div>
-                  <div className="text-[10px] tracking-[0.28em] uppercase text-zinc-700">
-                    From your closet
-                  </div>
-                  <h2 className="mt-1 text-xl tracking-tight [font-family:'Bodoni Moda','Didot','Bodoni MT',ui-serif,serif] font-semibold">
-                    Top picks
-                  </h2>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                {topPicks.map((it) => (
-                  <div
-                    key={it.id}
-                    className="rounded-[22px] border-2 border-zinc-900 bg-[#f4eadf] shadow-[3px_3px_0_#00000012] overflow-hidden"
-                  >
-                    <div className="relative">
-                      <img
-                        src={it.image_url}
-                        alt={it.og_file_name || "closet item"}
-                        className="w-full h-44 object-cover bg-zinc-950"
-                      />
-                      <div className="absolute top-3 left-3 rounded-full border-2 border-zinc-900 bg-[#f7f1ea] px-3 py-1 text-[10px] tracking-[0.22em] uppercase shadow-[2px_2px_0_#00000010]">
-                        {it.slot}
-                      </div>
-                    </div>
-
-                    <div className="p-4">
-                      <div className="text-sm font-medium text-zinc-900 line-clamp-2">
-                        {it.attributes?.description || it.og_file_name || "Closet item"}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            </div> */}
 
             {/* Outfit combos */}
             {needTops && needBottoms && (
-              <div className="mt-8">
+              <div className="mt-6">
                 <div className="mb-3">
-                  <div className="text-[10px] tracking-[0.28em] uppercase text-zinc-700">
+                  {/* <div className="text-[10px] tracking-[0.28em] uppercase text-zinc-700">
                     Combinations
-                  </div>
-                  <h2 className="mt-1 text-xl tracking-tight [font-family:'Bodoni Moda','Didot','Bodoni MT',ui-serif,serif] font-semibold">
-                    Suggested outfits
+                  </div> */}
+                  <h2 className="mt-1 text-3xl tracking-tight [font-family:'Bodoni Moda','Didot','Bodoni MT',ui-serif,serif] font-semibold">
+                    Suggested Combinations
                   </h2>
                 </div>
 
@@ -480,13 +440,68 @@ export default function SuggestedFitsPage() {
               </div>
             )}
 
+            {/* Top picks */}
             <div className="mt-8">
-              <Button
-                className="h-12 w-full rounded-full border-2 border-zinc-900 bg-[#e7dccf] text-zinc-900 hover:bg-[#dfd2c4] shadow-[3px_3px_0_#00000014]"
-                onClick={() => router.push(`/camera/${styleId}`)}
-              >
-                Retake & re-rate
-              </Button>
+              <div className="flex items-end justify-between gap-4 mb-3">
+                <div>
+                  {/* <div className="text-[10px] tracking-[0.28em] uppercase text-zinc-700">
+                    From your closet
+                  </div> */}
+                  <h2 className="mt-1 text-3xl tracking-tight [font-family:'Bodoni Moda','Didot','Bodoni MT',ui-serif,serif] font-semibold">
+                    Top Pieces
+                  </h2>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                {topPicks.map((it) => (
+                  <div
+                    key={it.id}
+                    className="rounded-[22px] border-2 border-zinc-900 bg-[#f4eadf] shadow-[3px_3px_0_#00000012] overflow-hidden"
+                  >
+                    <div className="relative">
+                      <img
+                        src={it.image_url}
+                        alt={it.og_file_name || "closet item"}
+                        className="w-full h-44 object-cover bg-zinc-950"
+                      />
+                      <div className="absolute top-3 left-3 rounded-full border-2 border-zinc-900 bg-[#f7f1ea] px-3 py-1 text-[10px] tracking-[0.22em] uppercase shadow-[2px_2px_0_#00000010]">
+                        {it.slot}
+                      </div>
+                    </div>
+
+                    <div className="p-4">
+                      <div className="text-sm font-medium text-zinc-900 line-clamp-2">
+                        {it.attributes?.description || it.og_file_name || "Closet item"}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-8 space-y-4 text-center">
+              <div className="flex flex-col items-center gap-3">
+                <span className="text-xl text-zinc-700">Not feeling the vibe?</span>
+                <Button
+                  className="h-12 rounded-full px-6 border-2 border-zinc-900 bg-[#e7dccf] text-zinc-900 hover:bg-[#dfd2c4] shadow-[3px_3px_0_#00000014]"
+                  onClick={() => router.push("/")}
+                >
+                  Start over
+                </Button>
+              </div>
+
+              <div className="flex flex-col items-center gap-3">
+                <span className="text-xl text-zinc-700">
+                  Want to try on another <span className="font-medium text-zinc-900">{style?.name || styleId}</span> fit?
+                </span>
+                <Button
+                  className="h-12 rounded-full px-6 border-2 border-zinc-900 bg-[#e7dccf] text-zinc-900 hover:bg-[#dfd2c4] shadow-[3px_3px_0_#00000014]"
+                  onClick={() => router.push(`/camera/${styleId}`)}
+                >
+                  Retake & re-rate
+                </Button>
+              </div>
             </div>
           </>
         )}
