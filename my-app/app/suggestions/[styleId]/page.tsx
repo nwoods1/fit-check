@@ -386,7 +386,7 @@ export default function SuggestedFitsPage() {
                                   <img
                                     src={o.top.image_url}
                                     alt={o.top.og_file_name || "top"}
-                                    className="w-20 h-20 rounded-[18px] object-cover border-2 border-zinc-900 bg-zinc-950 shadow-[2px_2px_0_#00000010]"
+                                    className="w-24 h-24 rounded-[18px] object-cover border-2 border-zinc-900 bg-zinc-950 shadow-[2px_2px_0_#00000010]"
                                   />
                                   <div className="text-sm">
                                     <div className="font-medium text-zinc-900">
@@ -404,7 +404,7 @@ export default function SuggestedFitsPage() {
                                   <img
                                     src={o.bottom.image_url}
                                     alt={o.bottom.og_file_name || "bottom"}
-                                    className="w-20 h-20 rounded-[18px] object-cover border-2 border-zinc-900 bg-zinc-950 shadow-[2px_2px_0_#00000010]"
+                                    className="w-24 h-24 rounded-[18px] object-cover border-2 border-zinc-900 bg-zinc-950 shadow-[2px_2px_0_#00000010]"
                                   />
                                   <div className="text-sm">
                                     <div className="font-medium text-zinc-900">
@@ -418,9 +418,9 @@ export default function SuggestedFitsPage() {
                               )}
                             </div>
 
-                            <div className="mt-5 text-xs text-zinc-700">
+                            {/* <div className="mt-5 text-xs text-zinc-700">
                               Built from your closet items.
-                            </div>
+                            </div> */}
                           </div>
                         </CarouselItem>
                       ))}
@@ -480,7 +480,7 @@ export default function SuggestedFitsPage() {
               </div>
             </div>
 
-            <div className="mt-8 space-y-4 text-center">
+            <div className="mt-8 space-y-6 text-center">
               <div className="flex flex-col items-center gap-3">
                 <span className="text-xl text-zinc-700">Not feeling the vibe?</span>
                 <Button
