@@ -177,6 +177,16 @@ export default function SuggestedFitsPage() {
         )}
       </div>
 
+      
+      {/* Select Fit Button */}
+      <div style={{display:'flex', justifyContent:'center', alignItems:'center', marginBottom:'15px'}}>
+        <Button size="sm" /* onClick={handleSend} disabled={!input.trim()} */>
+          Select this fit!
+          {/* <Send className="w-4 h-4" /> */}
+        </Button>
+      </div> 
+        
+
       {/* Filter Chat */}
       <div className="px-4 pb-6">
         <FitFilterChat onFilter={handleFilter} />
