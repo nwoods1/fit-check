@@ -157,8 +157,39 @@ export default function SuggestedFitsPage() {
 
   const style = styleCategories.find((s) => s.id === styleId);
 
+  const [dynamicRubric, setDynamicRubric] = useState<any>(null);
+  const [rubricLoading, setRubricLoading] = useState(false);
+
+  useEffect(() => {
+    // Fetch custom rubric from Supabase for custom vibes
+    if (!styleId.startsWith("custom-")) return;
+
+    const fetchRubric = async () => {
+      setRubricLoading(true);
+      try {
+        const res = await fetch(`/api/custom-vibes/${encodeURIComponent(styleId)}`);
+        const data = await res.json();
+        if (data.vibe) {
+          setDynamicRubric({
+            name: data.vibe.name,
+            description: data.vibe.description,
+            ...data.vibe.rubric,
+          });
+        }
+      } catch (err) {
+        console.error("Failed to fetch custom rubric:", err);
+      } finally {
+        setRubricLoading(false);
+      }
+    };
+    fetchRubric();
+  }, [styleId]);
+
   const rubricKey = useMemo(() => toRubricKey(styleId), [styleId]);
-  const rubric = useMemo(() => (styleRubrics as any)[rubricKey], [rubricKey]);
+  const rubric = useMemo(() => {
+    // Prefer dynamic rubric from sessionStorage, fall back to static rubrics
+    return dynamicRubric || (styleRubrics as any)[rubricKey];
+  }, [dynamicRubric, rubricKey]);
 
   const [items, setItems] = useState<ClosetItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -275,7 +306,7 @@ export default function SuggestedFitsPage() {
                 <div className="mt-2 text-sm text-zinc-700">
                   Target vibe:{" "}
                   <span className="text-zinc-900 font-medium">
-                    {style?.name || styleId}
+                    {dynamicRubric?.name || style?.name || styleId}
                   </span>
                 </div>
               </div>

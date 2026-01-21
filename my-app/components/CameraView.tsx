@@ -24,7 +24,28 @@ export function CameraView({ styleId }: { styleId: string }) {
   const countdownRef = useRef<number | null>(null);
 
   const style = styleCategories.find((s) => s.id === styleId);
+  const [customVibeName, setCustomVibeName] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Fetch custom vibe name from Supabase for custom vibes
+    if (!styleId.startsWith("custom-")) return;
+
+    const fetchVibeName = async () => {
+      try {
+        const res = await fetch(`/api/custom-vibes/${encodeURIComponent(styleId)}`);
+        const data = await res.json();
+        if (data.vibe?.name) {
+          setCustomVibeName(data.vibe.name);
+        }
+      } catch {
+        // Ignore errors
+      }
+    };
+    fetchVibeName();
+  }, [styleId]);
+
   const styleName =
+    customVibeName ||
     style?.name ||
     (styleId?.startsWith("custom-")
       ? styleId.replace("custom-", "").replace(/-/g, " ")

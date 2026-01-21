@@ -69,14 +69,46 @@ export default function RatingPage() {
 
   const style = useMemo(() => styleCategories.find((s) => s.id === styleId), [styleId]);
 
+  const [dynamicRubric, setDynamicRubric] = useState<any>(null);
+  const [rubricLoading, setRubricLoading] = useState(false);
+
+  useEffect(() => {
+    // Fetch custom rubric from Supabase for custom vibes
+    if (!styleId.startsWith("custom-")) return;
+
+    const fetchRubric = async () => {
+      setRubricLoading(true);
+      try {
+        const res = await fetch(`/api/custom-vibes/${encodeURIComponent(styleId)}`);
+        const data = await res.json();
+        if (data.vibe) {
+          setDynamicRubric({
+            name: data.vibe.name,
+            description: data.vibe.description,
+            ...data.vibe.rubric,
+          });
+        }
+      } catch (err) {
+        console.error("Failed to fetch custom rubric:", err);
+      } finally {
+        setRubricLoading(false);
+      }
+    };
+    fetchRubric();
+  }, [styleId]);
+
   const rubricKey = useMemo(() => {
     if (!styleId) return "";
     return styleId.replace(/-/g, "_");
   }, [styleId]);
 
   const rubric = useMemo(() => {
-    return (styleRubrics as any)[rubricKey] ?? null;
-  }, [rubricKey]);
+    // Prefer dynamic rubric from sessionStorage, fall back to static rubrics
+    return dynamicRubric || (styleRubrics as any)[rubricKey] || null;
+  }, [dynamicRubric, rubricKey]);
+
+  // Get display name - prefer dynamic rubric name, then style name, then styleId
+  const displayName = dynamicRubric?.name || style?.name || styleId;
 
   const [imageDataUrl, setImageDataUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -132,8 +164,8 @@ Schema:
 
 TARGET STYLE:
 - id: "${styleId}"
-- name: "${style?.name ?? styleId}"
-- description: "${style?.description ?? ""}"
+- name: "${displayName}"
+- description: "${dynamicRubric?.description || style?.description || ""}"
 
 RUBRIC (this is the ONLY definition of the target style; use it as your reference):
 ${rubricText}
@@ -214,7 +246,7 @@ Now analyze the image and output JSON only.
               <div className="mt-2 text-sm text-zinc-700">
                 Target vibe:{" "}
                 <span className="text-zinc-900 font-medium">
-                  {style?.name ?? styleId}
+                  {displayName}
                 </span>
               </div>
             </div>

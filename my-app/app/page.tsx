@@ -1,14 +1,60 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { styleCategories } from "@/data/styles";
 import { StyleCard } from "@/components/StyleCard";
-import { AddVibeCard } from "@/components/AddVibeCard";
+import { AddVibeCard, CustomVibe } from "@/components/AddVibeCard";
+import { CustomVibeCard } from "@/components/CustomVibeCard";
 import { StepIndicator } from "@/components/StepIndicator";
-import { Shirt, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import RequireAuth from "@/components/RequireAuth";
 
 export default function Home() {
+  const [customVibes, setCustomVibes] = useState<CustomVibe[]>([]);
+  const [loadingVibes, setLoadingVibes] = useState(true);
+
+  useEffect(() => {
+    // Fetch custom vibes from Supabase
+    const fetchVibes = async () => {
+      try {
+        const res = await fetch("/api/custom-vibes");
+        const data = await res.json();
+        if (data.vibes) {
+          setCustomVibes(data.vibes.map((v: any) => ({
+            id: v.id,
+            name: v.name,
+            description: v.description,
+            rubric: v.rubric,
+          })));
+        }
+      } catch (err) {
+        console.error("Failed to fetch custom vibes:", err);
+      } finally {
+        setLoadingVibes(false);
+      }
+    };
+    fetchVibes();
+  }, []);
+
+  const handleVibeCreated = (vibe: CustomVibe) => {
+    setCustomVibes((prev) => {
+      const filtered = prev.filter((v) => v.id !== vibe.id);
+      return [...filtered, vibe];
+    });
+  };
+
+  const handleVibeDeleted = async (vibeId: string) => {
+    try {
+      await fetch(`/api/custom-vibes?id=${encodeURIComponent(vibeId)}`, {
+        method: "DELETE",
+      });
+      setCustomVibes((prev) => prev.filter((v) => v.id !== vibeId));
+    } catch (err) {
+      console.error("Failed to delete vibe:", err);
+    }
+  };
+
   return (
     <RequireAuth>
       <div className="min-h-screen bg-[#f4eadf] text-zinc-900">
@@ -22,8 +68,6 @@ export default function Home() {
           className="relative px-6 pt-6 pb-4"
         >
           <div className="mx-auto w-full max-w-6xl">
-
-
             <div className="mt-5 border-t border-zinc-900/15" />
           </div>
         </motion.header>
@@ -73,7 +117,18 @@ export default function Home() {
                 {styleCategories.map((style, index) => (
                   <StyleCard key={style.id} style={style} index={index} />
                 ))}
-                <AddVibeCard index={styleCategories.length} />
+                {customVibes.map((vibe, index) => (
+                  <CustomVibeCard
+                    key={vibe.id}
+                    vibe={vibe}
+                    index={styleCategories.length + index}
+                    onDelete={handleVibeDeleted}
+                  />
+                ))}
+                <AddVibeCard
+                  index={styleCategories.length + customVibes.length}
+                  onVibeCreated={handleVibeCreated}
+                />
               </div>
             </div>
           </div>
