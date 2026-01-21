@@ -33,19 +33,32 @@ export async function fetchClosetItemsForCategory(styleIdFromUrl: string) {
   if (!supabase) throw new Error("Supabase client not configured.");
 
   const category = styleIdFromUrl || "";
-  console.log("SUPABASE URL:", process.env.NEXT_PUBLIC_SUPABASE_URL);
-  const [topsRes, bottomsRes] = await Promise.all([
-    supabase
-      .from("tops_generated_v1")
-      .select("id, category, created_at, image_url, og_file_name, attributes")
-      .eq("category", category)
-      .order("created_at", { ascending: false }),
+  const isCustomVibe = category.startsWith("custom-");
 
-    supabase
-      .from("bottoms_generated_v1")
-      .select("id, category, created_at, image_url, og_file_name, attributes")
-      .eq("category", category)
-      .order("created_at", { ascending: false }),
+  // For custom vibes, fetch ALL items and let the ranking algorithm score them
+  // For predefined styles, filter by category for efficiency
+  const [topsRes, bottomsRes] = await Promise.all([
+    isCustomVibe
+      ? supabase
+          .from("tops_generated_v1")
+          .select("id, category, created_at, image_url, og_file_name, attributes")
+          .order("created_at", { ascending: false })
+      : supabase
+          .from("tops_generated_v1")
+          .select("id, category, created_at, image_url, og_file_name, attributes")
+          .eq("category", category)
+          .order("created_at", { ascending: false }),
+
+    isCustomVibe
+      ? supabase
+          .from("bottoms_generated_v1")
+          .select("id, category, created_at, image_url, og_file_name, attributes")
+          .order("created_at", { ascending: false })
+      : supabase
+          .from("bottoms_generated_v1")
+          .select("id, category, created_at, image_url, og_file_name, attributes")
+          .eq("category", category)
+          .order("created_at", { ascending: false }),
   ]);
 
   if (topsRes.error) throw new Error(topsRes.error.message);

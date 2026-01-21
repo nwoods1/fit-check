@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -13,21 +12,90 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
+export type CustomVibe = {
+  id: string;
+  name: string;
+  description: string;
+  rubric: {
+    signature_items: string[];
+    avoid: string[];
+    palette_materials: string[];
+    silhouette: string[];
+  };
+};
+
 interface AddVibeCardProps {
   index: number;
+  onVibeCreated?: (vibe: CustomVibe) => void;
 }
 
-export function AddVibeCard({ index }: AddVibeCardProps) {
-  const router = useRouter();
+export function AddVibeCard({ index, onVibeCreated }: AddVibeCardProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [vibeName, setVibeName] = useState("");
+  const [vibeDescription, setVibeDescription] = useState("");
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = () => {
-    if (vibeName.trim()) {
-      router.push(
-        `/camera/custom-${vibeName.toLowerCase().replace(/\s+/g, "-")}`
-      );
-      setIsOpen(false);
+  const handleSubmit = async () => {
+    if (!vibeName.trim() || !vibeDescription.trim()) return;
+
+    setIsGenerating(true);
+    setError(null);
+
+    try {
+      const res = await fetch("/api/generate-rubric", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ styleDescription: vibeDescription }),
+      });
+      const data = await res.json();
+
+      if (data.error) {
+        setError(data.error);
+        return;
+      }
+
+      if (data.rubric) {
+        const styleId = `custom-${vibeName.toLowerCase().replace(/\s+/g, "-")}`;
+
+        // Save to Supabase
+        const saveRes = await fetch("/api/custom-vibes", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: styleId,
+            name: vibeName,
+            description: vibeDescription,
+            rubric: data.rubric,
+          }),
+        });
+        const saveData = await saveRes.json();
+
+        if (saveData.error) {
+          setError(saveData.error);
+          return;
+        }
+
+        // Create custom vibe object for UI
+        const newVibe: CustomVibe = {
+          id: styleId,
+          name: vibeName,
+          description: vibeDescription,
+          rubric: data.rubric,
+        };
+
+        // Notify parent component
+        onVibeCreated?.(newVibe);
+
+        setIsOpen(false);
+        setVibeName("");
+        setVibeDescription("");
+      }
+    } catch (err: any) {
+      console.error("Failed to generate rubric:", err);
+      setError("Failed to generate style. Please try again.");
+    } finally {
+      setIsGenerating(false);
     }
   };
 
@@ -64,19 +132,37 @@ export function AddVibeCard({ index }: AddVibeCardProps) {
         </DialogHeader>
 
         <div className="space-y-4 pt-4">
-          <Input
-            placeholder="e.g. Parisian Minimal"
-            value={vibeName}
-            onChange={(e) => setVibeName(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-            className="border-zinc-900 bg-[#faf7f3]"
-          />
+          <div>
+            <label className="text-xs font-medium text-zinc-700 mb-1 block">
+              Vibe Name
+            </label>
+            <Input
+              placeholder="e.g. Business Professor"
+              value={vibeName}
+              onChange={(e) => setVibeName(e.target.value)}
+              className="border-zinc-900 bg-[#faf7f3]"
+            />
+          </div>
+          <div>
+            <label className="text-xs font-medium text-zinc-700 mb-1 block">
+              Describe the vibe
+            </label>
+            <textarea
+              placeholder="e.g. A university professor in the business faculty who looks approachable but professional, with smart casual pieces..."
+              value={vibeDescription}
+              onChange={(e) => setVibeDescription(e.target.value)}
+              className="w-full p-3 border-2 border-zinc-900 rounded-md bg-[#faf7f3] text-sm min-h-[100px] resize-none focus:outline-none focus:ring-2 focus:ring-zinc-400"
+            />
+          </div>
+          {error && (
+            <p className="text-sm text-red-600">{error}</p>
+          )}
           <Button
             onClick={handleSubmit}
-            disabled={!vibeName.trim()}
-            className="w-full border-2 border-zinc-900 bg-[#e7dccf] text-zinc-900 hover:bg-[#dfd2c4]"
+            disabled={!vibeName.trim() || !vibeDescription.trim() || isGenerating}
+            className="w-full border-2 border-zinc-900 bg-[#e7dccf] text-zinc-900 hover:bg-[#dfd2c4] disabled:opacity-50"
           >
-            Continue
+            {isGenerating ? "Generating style..." : "Create Vibe"}
           </Button>
         </div>
       </DialogContent>
